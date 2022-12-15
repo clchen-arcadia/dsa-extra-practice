@@ -34,12 +34,10 @@ function sortSortedLinkedLists(listA, listB) {
 
   }
 
-
-  console.log(newLinkedList);
-
   return newLinkedList;
-
 }
 
 
-export { sortSortedLinkedLists };
+// module.exports = sortSortedLinkedLists;
+
+export {sortSortedLinkedLists};

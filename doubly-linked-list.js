@@ -201,6 +201,38 @@ class DoublyLinkedList {
 
     return total / this.length;
   }
+
+  static sortSortedLinkedLists(listA, listB) {
+
+    // construct new list
+    const newLinkedList = new DoublyLinkedList();
+
+    let pointerA = listA.head;
+    let pointerB = listB.head;
+
+    if (!pointerA && !pointerB) return newLinkedList;
+
+    while (pointerA || pointerB) {
+
+      let isANext;
+      if (pointerA === null) isANext = false;
+      else if (pointerB === null) isANext = true;
+      else isANext = pointerA.val <= pointerB.val;
+
+      if (isANext) {
+        newLinkedList.push(pointerA.val);
+        pointerA = pointerA.next;
+      }
+      else {
+        newLinkedList.push(pointerB.val);
+        pointerB = pointerB.next;
+      }
+
+    }
+
+    return newLinkedList;
+  }
+
 }
 
 module.exports = DoublyLinkedList;
