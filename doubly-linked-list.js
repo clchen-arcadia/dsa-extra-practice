@@ -202,6 +202,7 @@ class DoublyLinkedList {
     return total / this.length;
   }
 
+  /** merges two sorted DLLs and returns copy of merged list that is also sorted */
   static sortSortedLinkedLists(listA, listB) {
 
     // construct new list
@@ -231,6 +232,96 @@ class DoublyLinkedList {
     }
 
     return newLinkedList;
+  }
+
+  /** pivot the DLL by the given value, nodes with values that are less than
+   *  or equal to the value remain on the left side. all nodes with values greater
+   *  than the given value are pushed to the end of the DLL.
+   *  function mutates in place.
+   */
+  pivotAround(value) {
+    if (this.length === 0) return;
+
+    const setPivotInfo = {
+      isSet: false,
+      pivotNode: null,
+      isContinue: true,
+    };
+
+    let currNode = this.head;
+
+    while (setPivotInfo.isContinue) {
+      if (currNode === setPivotInfo.pivotNode) {
+        setPivotInfo.isContinue = false;
+        continue;
+      }
+
+      if (currNode.val <= value) {
+        currNode = currNode.next;
+        continue;
+      }
+
+      if (currNode.val > value) {
+        if (!setPivotInfo.isSet) {
+          setPivotInfo.isSet = true;
+          setPivotInfo.pivotNode = currNode;
+        }
+
+        // remove and add to end
+        const tempNextNode = currNode.next;
+        this._pushNode(this._remove(currNode));
+        currNode = tempNextNode;
+        continue;
+      }
+    }
+
+    return;
+  }
+
+
+  /** Removes a given node from a list and returns it */
+  _remove(node) {
+    if (this.length === 0) throw new Error();
+    if (this.length === 1 && this.head === node) {
+      this.head = null;
+      this.tail = null;
+      this.length--;
+      node.next = null;
+      node.prev = null;
+      return node;
+    }
+    if (this.head === node) {
+      this.head = node.next;
+      node.next.prev = null;
+      this.length--;
+      node.next = null;
+      node.prev = null;
+      return node;
+    }
+    if (this.tail === node) {
+      this.tail = node.prev;
+      node.prev.next = null;
+      this.length--;
+      node.next = null;
+      node.prev = null;
+      return node;
+    }
+    node.prev.next = node.next;
+    node.next.prev = node.prev;
+    this.length--;
+    node.next = null;
+    node.prev = null;
+    return node;
+  }
+
+  /** Accepts node and appends to end of DLL */
+  _pushNode(node) {
+    node.prev = this.tail;
+    node.next = null;
+    this.tail.next = node;
+    this.tail = node;
+    this.length++;
+    return this.length;
   }
 
 }

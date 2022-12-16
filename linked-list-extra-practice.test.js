@@ -54,3 +54,16 @@ describe('sortSortedLinkedLists', function () {
   });
 
 });
+
+
+describe('pivotAround', function () {
+
+  const exampleList = new DoublyLinkedList([7, 6, 2, 3, 9, 1, 1]);
+
+  it('works with example 1', function () {
+    console.log(exampleList.nodes);
+    exampleList.pivotAround(5);
+    console.log(exampleList.nodes);
+  });
+
+});
